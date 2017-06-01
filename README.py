@@ -13,3 +13,7 @@ s3 = boto3.resource(
 
 data = open('test.py', 'rb')
 s3.Bucket('samuelbucket1').put_object(Key='test/test.py', Body=data)
+#Or
+s3 = boto3.client('s3', config=Config(signature_version='s3v4'))
+s3.upload_file('test.sh', 'samuelbucket1', 'test.sh')
+# s3.delete_bucket(Bucket='erewrewrewrrwerw3')
