@@ -1,4 +1,5 @@
 # Amazon_AWS
+1.＃上传文件到Ｓ３
 import boto3
 from botocore.client import Config
 
@@ -13,7 +14,21 @@ s3 = boto3.resource(
 
 data = open('test.py', 'rb')
 s3.Bucket('samuelbucket1').put_object(Key='test/test.py', Body=data)
+
 #Or
 s3 = boto3.client('s3', config=Config(signature_version='s3v4'))
 s3.upload_file('test.sh', 'samuelbucket1', 'test.sh')
 # s3.delete_bucket(Bucket='erewrewrewrrwerw3')
+
+２．＃从Ｓ３下载文件到本地
+import boto3
+from botocore.client import Config
+import botocore
+
+s3 = boto3.resource('s3', config=Config(signature_version='s3v4'))
+
+try:
+    s3.Bucket('samuelbucket1').download_file('test.sh', 'test.sh')
+except botocore.exceptions.ClientError as e:
+    if e.response['Error']['Code'] == "404":
+        print("The object does not exist.")
